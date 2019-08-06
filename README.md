@@ -36,7 +36,8 @@ composer require selective/rar
 use Selective\Rar\RarFileReader;
 use SplFileObject;
 
-$rarArchive = $fileReader->openFile(new SplFileObject('test.rar));
+$rarFileReader = new RarFileReader();
+$rarArchive = $rarFileReader->openFile(new SplFileObject('test.rar'));
 
 foreach ($rarArchive->getEntries() as $entry) {
     echo $entry->getName() . "\n";
@@ -52,7 +53,8 @@ use SplTempFileObject;
 $file = new SplTempFileObject();
 $file->fwrite('my binary rar content');
 
-$rarArchive = $fileReader->openFile($file);
+$rarFileReader = new RarFileReader();
+$rarArchive = $rarFileReader->openFile($file);
 
 foreach ($rarArchive->getEntries() as $entry) {
     echo $entry->getName() . "\n";
