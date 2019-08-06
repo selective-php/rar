@@ -1,0 +1,10 @@
+.idea/
+composer.lock
+nbproject/
+vendor/
+build/
+tests/files/excluded/
+
+!tests/files/excluded/
+tests/files/excluded/*
+!tests/files/excluded/empty
