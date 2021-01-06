@@ -7,12 +7,13 @@ use Selective\Rar\Converter\BitConverter;
 use Selective\Rar\Converter\DateTimeConverter;
 use Selective\Rar\Flag\RarFileBitFlag;
 use Selective\Rar\Flag\RarVolumeHeaderFlag;
-use Selective\Rar\Struct\RarExtTimeStruct;
 use Selective\Rar\Struct\RarArchiveStruct;
+use Selective\Rar\Struct\RarExtTimeStruct;
 use Selective\Rar\Struct\RarFileHeadStruct;
 use Selective\Rar\Struct\RarMainHeadStruct;
 use Selective\Rar\Struct\RarVolumeHeaderStruct;
 use SplFileObject;
+use UnexpectedValueException;
 
 /**
  * RAR file reader.
@@ -79,18 +80,20 @@ final class RarFileReader
         foreach ($rarArchiveStruct->files as $file) {
             $entry = new RarEntry();
 
-            $rarArchive = $rarArchive->addEntry($entry
-                ->withAttr($file->fileAttr)
-                ->withCrc($file->fileCRC)
-                ->withFileTime($file->fileTime)
-                ->withHostOs($file->hostOS)
-                ->withMethod($file->method)
-                ->withName($file->fileName)
-                ->withPackedSize($file->packSize)
-                ->withUnpackedSize($file->unpackSize)
-                ->withVersion($file->unpVer)
-                ->withIsDirectory(false)
-                ->withIsEncrypted(false));
+            $rarArchive = $rarArchive->addEntry(
+                $entry
+                    ->withAttr($file->fileAttr)
+                    ->withCrc($file->fileCRC)
+                    ->withFileTime($file->fileTime)
+                    ->withHostOs($file->hostOS)
+                    ->withMethod($file->method)
+                    ->withName($file->fileName)
+                    ->withPackedSize($file->packSize)
+                    ->withUnpackedSize($file->unpackSize)
+                    ->withVersion($file->unpVer)
+                    ->withIsDirectory(false)
+                    ->withIsEncrypted(false)
+            );
         }
 
         return $rarArchive;
@@ -417,9 +420,8 @@ final class RarFileReader
      */
     private function getInt(string $data): int
     {
-        $result = unpack('v', $data)[1]; // 2 bytes
-
-        return (int)$result;
+        // 2 bytes
+        return (int)$this->unpack('v', $data)[1];
     }
 
     /**
@@ -431,8 +433,28 @@ final class RarFileReader
      */
     private function getBigInt(string $data): int
     {
-        $result = unpack('V', $data)[1]; // 4 bytes
+        // 4 bytes
+        return (int)$this->unpack('V', $data)[1];
+    }
 
-        return (int)$result;
+    /**
+     * Unpack data from binary string.
+     *
+     * @param string $format The format
+     * @param string $data The data
+     *
+     * @throws UnexpectedValueException
+     *
+     * @return array<mixed> The unpacked data
+     */
+    private function unpack(string $format, string $data): array
+    {
+        $result = unpack($format, $data);
+
+        if ($result === false) {
+            throw new UnexpectedValueException('The format string contains errors');
+        }
+
+        return (array)$result;
     }
 }

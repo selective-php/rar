@@ -7,9 +7,9 @@ namespace Selective\Rar\Flag;
  */
 final class RarVolumeHeaderFlag
 {
-    const MARK_HEAD = 0x72;
-    const MAIN_HEAD = 0x73; // 115
-    const FILE_HEAD = 0x74; // 116
+    public const MARK_HEAD = 0x72;
+    public const MAIN_HEAD = 0x73; // 115
+    public const FILE_HEAD = 0x74; // 116
     public const COMM_HEAD = 0x75;
     public const AV_HEAD = 0x76;
     public const SUB_HEAD = 0x77;

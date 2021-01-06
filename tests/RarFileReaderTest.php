@@ -71,7 +71,7 @@ class RarFileReaderTest extends TestCase
     /**
      * Provider.
      *
-     * @return array
+     * @return array<mixed>
      */
     public function providerTestOpenFile2(): array
     {
