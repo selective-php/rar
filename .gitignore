@@ -3,6 +3,9 @@ composer.lock
 nbproject/
 vendor/
 build/
+.phpunit.result.cache
+.php_cs.cache
+
 tests/files/excluded/
 
 !tests/files/excluded/
