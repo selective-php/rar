@@ -15,6 +15,6 @@ final class RarVolumeHeaderFlag
     public const SUB_HEAD = 0x77;
     public const PROTECT_HEAD = 0x78;
     public const SIGN_HEAD = 0x79;
-    public const NEWSUB_HEAD = 0x7a;
-    public const ENDARC_HEAD = 0x7b; // 123
+    public const NEWSUB_HEAD = 0x7A;
+    public const ENDARC_HEAD = 0x7B; // 123
 }
