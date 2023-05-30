@@ -4,37 +4,63 @@ namespace Selective\Rar\Test;
 
 use PHPUnit\Framework\TestCase;
 use Selective\Rar\RarFileReader;
-use SplFileObject;
 
 /**
  * Test.
  */
 class RarFileReaderTest extends TestCase
 {
-    /**
-     * Test.
-     *
-     * @return void
-     */
-    public function testOpenFile(): void
+    public function testOpenFileRar4(): void
     {
         $filename = __DIR__ . '/files/test.rar';
-
-        self::assertFileExists($filename);
+        $this->assertFileExists($filename);
 
         $fileReader = new RarFileReader();
-
-        $rarArchive = $fileReader->openFile(new SplFileObject($filename));
-
-        foreach ($rarArchive->getEntries() as $entry) {
-            echo $entry->getName() . "\n";
-        }
+        $rarArchive = $fileReader->openFile(new \SplFileObject($filename));
 
         $entries = $rarArchive->getEntries();
-        self::assertSame(2, $entries[0]->getHostOs());
-        self::assertSame('test.txt', $entries[0]->getName());
-        self::assertSame('test2.txt', $entries[1]->getName());
-        self::assertSame('261DAEE5', $entries[0]->getCrc());
+        $this->assertCount(2, $entries);
+        // 2 = Windows
+        $this->assertSame(2, $entries[0]->getHostOs());
+        $this->assertSame('test.txt', $entries[0]->getName());
+        $this->assertSame('test2.txt', $entries[1]->getName());
+        $this->assertSame('261DAEE5', $entries[0]->getCrc());
+    }
+
+    public function testOpenFileRar5Unix(): void
+    {
+        $filename = __DIR__ . '/files/test-rar5-unix.rar';
+        $this->assertFileExists($filename);
+
+        $fileReader = new RarFileReader();
+        $rarArchive = $fileReader->openFile(new \SplFileObject($filename));
+
+        $entries = $rarArchive->getEntries();
+        $this->assertCount(1, $entries);
+        $this->assertSame(1, $entries[0]->getHostOs());
+        $this->assertSame('testfile.txt', $entries[0]->getName());
+        $this->assertSame('6EC18FFE', $entries[0]->getCrc());
+    }
+
+    public function testOpenFileRar5ChinaWindows(): void
+    {
+        $filename = __DIR__ . '/files/test-rar5-china-win.rar';
+        $this->assertFileExists($filename);
+
+        $fileReader = new RarFileReader();
+        $rarArchive = $fileReader->openFile(new \SplFileObject($filename));
+
+        $entries = $rarArchive->getEntries();
+        $this->assertCount(2, $entries);
+        $this->assertSame('9', $entries[0]->getUnpackedSize());
+        $this->assertSame('2023-05-30 09:56:30', $entries[0]->getFileTime()->format('Y-m-d H:i:s'));
+        $this->assertSame('test2/很好。.txt', $entries[0]->getName());
+        $this->assertSame('10F28531', $entries[0]->getCrc());
+
+        $this->assertSame('12', $entries[1]->getUnpackedSize());
+        $this->assertSame('2023-05-30 09:55:36', $entries[1]->getFileTime()->format('Y-m-d H:i:s'));
+        $this->assertSame('test2/祝你一天过得愉快。.txt', $entries[1]->getName());
+        $this->assertSame('E3C94841', $entries[1]->getCrc());
     }
 
     /**
@@ -48,10 +74,10 @@ class RarFileReaderTest extends TestCase
      */
     public function disabledTestOpenFile2(string $filename): void
     {
-        self::assertFileExists($filename);
+        $this->assertFileExists($filename);
 
         $fileReader = new RarFileReader();
-        $rarArchive = $fileReader->openFile(new SplFileObject($filename));
+        $rarArchive = $fileReader->openFile(new \SplFileObject($filename));
 
         $ration = 0;
 
@@ -62,10 +88,10 @@ class RarFileReaderTest extends TestCase
             $ration = $originalSize / $compressedSize;
         }
 
-        self::assertSame(3, $rarArchive->getEntries()[0]->getHostOs());
-        self::assertCount(1, $rarArchive->getEntries());
-        self::assertNotEmpty($rarArchive->getEntries()[0]->getName());
-        self::assertGreaterThan(2000, $ration);
+        $this->assertSame(3, $rarArchive->getEntries()[0]->getHostOs());
+        $this->assertCount(1, $rarArchive->getEntries());
+        $this->assertNotEmpty($rarArchive->getEntries()[0]->getName());
+        $this->assertGreaterThan(2000, $ration);
     }
 
     /**

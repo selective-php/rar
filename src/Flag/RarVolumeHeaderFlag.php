@@ -4,6 +4,8 @@ namespace Selective\Rar\Flag;
 
 /**
  * Flag.
+ *
+ * https://codedread.github.io/bitjs/docs/unrar.html#header_type
  */
 final class RarVolumeHeaderFlag
 {

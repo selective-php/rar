@@ -80,7 +80,12 @@ final class RarFileHeadStruct
     public $extTime;
 
     /**
-     * @var string
+     * @var int
      */
     public $unpackSize;
+
+    /**
+     * @var bool
+     */
+    public $isDirectory = false;
 }
