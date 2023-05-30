@@ -40,14 +40,14 @@ final class RarEntry
     private $name = '';
 
     /**
-     * @var float
+     * @var int
      */
     private $packedSize = 0;
 
     /**
-     * @var string
+     * @var int
      */
-    private $unpackedSize = '0';
+    private $unpackedSize = 0;
 
     /**
      * @var int
@@ -137,9 +137,9 @@ final class RarEntry
     /**
      * Get value.
      *
-     * @return string The unpackedSize
+     * @return int The unpackedSize
      */
-    public function getUnpackedSize(): string
+    public function getUnpackedSize(): int
     {
         return $this->unpackedSize;
     }
@@ -267,11 +267,11 @@ final class RarEntry
     /**
      * Set value.
      *
-     * @param float $packedSize The packedSize
+     * @param int $packedSize The packedSize
      *
      * @return self
      */
-    public function withPackedSize(float $packedSize): self
+    public function withPackedSize(int $packedSize): self
     {
         $clone = clone $this;
         $clone->packedSize = $packedSize;
@@ -282,11 +282,11 @@ final class RarEntry
     /**
      * Set value.
      *
-     * @param string $unpackedSize The unpackedSize
+     * @param int $unpackedSize The unpackedSize
      *
      * @return self
      */
-    public function withUnpackedSize(string $unpackedSize): self
+    public function withUnpackedSize(int $unpackedSize): self
     {
         $clone = clone $this;
         $clone->unpackedSize = $unpackedSize;
