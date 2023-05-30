@@ -174,36 +174,7 @@ final class Rar5FileReader
 
         // Optional area containing additional header fields, present only if 0x0001 header flag is set.
         if ($this->bit->isFlagSet($headerFlags, 0x0001) && $extraAreaSize) {
-            $extraOffset = $file->ftell();
-            // extra area size 2
-            $this->fileReader->readVint($file);
-            $extraAreaType = $this->fileReader->readVint($file);
-
-            // file time (extra record)
-            if ($extraAreaType === 3) {
-                $timeFlags = $this->fileReader->readVint($file);
-
-                // Time is stored in Unix time_t format if this flags
-                // is set and in Windows FILETIME format otherwise
-                if ($this->bit->isFlagSet($timeFlags, 0x0002)) {
-                    $isUnixTime = $this->bit->isFlagSet($timeFlags, 0x0001);
-
-                    if ($isUnixTime) {
-                        $fileTimeUnix = $this->fileReader->readBigInt($file);
-                        $fileHeader->fileTime = (new DateTimeImmutable())->setTimestamp($fileTimeUnix);
-                    } else {
-                        // Convert bytes to a 64-bit integer
-                        $fileTime = ((array)unpack('P', (string)$file->fread(8)))[1];
-
-                        // Adjust Windows FILETIME to Unix timestamp format
-                        $fileTimeUnix = ($fileTime - 116444736000000000) / 10000000;
-                        $fileHeader->fileTime = (new DateTimeImmutable())->setTimestamp((int)$fileTimeUnix);
-                    }
-                }
-            }
-
-            // Jump to end of extra record
-            $file->fseek($extraOffset + $extraAreaSize);
+            $this->readExtraArea($file, $fileHeader, $extraAreaSize);
         }
 
         // Optional data area, present only if 0x0002 header flag is set.
@@ -216,5 +187,47 @@ final class Rar5FileReader
         }
 
         return $fileHeader;
+    }
+
+    private function readExtraArea(SplFileObject $file, RarFileHeadStruct $fileHeader, int $extraAreaSize): void
+    {
+        $extraOffset = $file->ftell();
+
+        // extra area size 2
+        $this->fileReader->readVint($file);
+        $extraAreaType = $this->fileReader->readVint($file);
+
+        // file time (extra record)
+        if ($extraAreaType === 3) {
+            $this->readExtraAreaFileTime($file, $fileHeader);
+        }
+
+        // Jump to end of extra record
+        $file->fseek($extraOffset + $extraAreaSize);
+    }
+
+    private function readExtraAreaFileTime(SplFileObject $file, RarFileHeadStruct $fileHeader): void
+    {
+        $timeFlags = $this->fileReader->readVint($file);
+
+        if (!$this->bit->isFlagSet($timeFlags, 0x0002)) {
+            return;
+        }
+
+        // Time is stored in Unix time_t format if this flags
+        // is set and in Windows FILETIME format otherwise
+        $isUnixTime = $this->bit->isFlagSet($timeFlags, 0x0001);
+
+        if ($isUnixTime) {
+            $fileTimeUnix = $this->fileReader->readBigInt($file);
+            $fileHeader->fileTime = (new DateTimeImmutable())->setTimestamp($fileTimeUnix);
+        } else {
+            // Convert bytes to a 64-bit integer
+            $fileTime = ((array)unpack('P', (string)$file->fread(8)))[1];
+
+            // Adjust Windows FILETIME to Unix timestamp format
+            $fileTimeUnix = ($fileTime - 116444736000000000) / 10000000;
+            $fileHeader->fileTime = (new DateTimeImmutable())->setTimestamp((int)$fileTimeUnix);
+        }
     }
 }
