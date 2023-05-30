@@ -28,12 +28,6 @@ jobs:
       - name: Check Composer Version
         run: composer -V
 
-      - name: Check PHP Extensions
-        run: php -m
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
       - name: Install dependencies for PHP 7
         if: matrix.php-versions < '8.0'
         run: composer update --prefer-dist --no-progress
@@ -43,6 +37,6 @@ jobs:
         run: composer update --prefer-dist --no-progress --ignore-platform-req=php
 
       - name: Run test suite
-        run: composer check
+        run: composer test:all
         env:
           PHP_CS_FIXER_IGNORE_ENV: 1

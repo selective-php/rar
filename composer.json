@@ -1,7 +1,8 @@
 {
     "name": "selective/rar",
-    "type": "library",
     "description": "RAR file reader",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "rar",
         "file",
@@ -9,7 +10,6 @@
         "archive"
     ],
     "homepage": "https://github.com/selective-php/rar",
-    "license": "MIT",
     "require": {
         "php": "^7.3 || ^8.0"
     },
@@ -19,23 +19,6 @@
         "phpstan/phpstan": "^1",
         "phpunit/phpunit": "^9",
         "squizlabs/php_codesniffer": "^3"
-    },
-    "scripts": {
-        "check": [
-            "@lint",
-            "@cs:check",
-            "@sniffer:check",
-            "@phpstan",
-            "@test:coverage"
-        ],
-        "cs:check": "php-cs-fixer fix --dry-run --format=txt --verbose --diff --config=.cs.php",
-        "cs:fix": "php-cs-fixer fix --config=.cs.php",
-        "lint": "phplint ./ --exclude=vendor --no-interaction --no-cache",
-        "phpstan": "phpstan analyse -c phpstan.neon --no-progress --ansi",
-        "sniffer:check": "phpcs --standard=phpcs.xml",
-        "sniffer:fix": "phpcbf --standard=phpcs.xml",
-        "test": "phpunit --configuration phpunit.xml --do-not-cache-result",
-        "test:coverage": "phpunit --configuration phpunit.xml --do-not-cache-result --coverage-clover build/logs/clover.xml --coverage-html build/coverage"
     },
     "autoload": {
         "psr-4": {
@@ -48,7 +31,23 @@
         }
     },
     "config": {
-        "sort-packages": true,
-        "process-timeout": 0
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "scripts": {
+        "cs:check": "php-cs-fixer fix --dry-run --format=txt --verbose --diff --config=.cs.php --ansi",
+        "cs:fix": "php-cs-fixer fix --config=.cs.php --ansi",
+        "sniffer:check": "phpcs --standard=phpcs.xml",
+        "sniffer:fix": "phpcbf --standard=phpcs.xml",
+        "stan": "phpstan analyse -c phpstan.neon --no-progress --ansi",
+        "start": "php -S localhost:8080 -t public/",
+        "test": "phpunit --configuration phpunit.xml --do-not-cache-result --colors=always",
+        "test:all": [
+            "@cs:check",
+            "@sniffer:check",
+            "@stan",
+            "@test"
+        ],
+        "test:coverage": "php -d xdebug.mode=coverage -r \"require 'vendor/bin/phpunit';\" -- --configuration phpunit.xml --do-not-cache-result --colors=always --coverage-clover build/logs/clover.xml --coverage-html build/coverage"
     }
 }
