@@ -15,6 +15,8 @@ RAR file reader for PHP.
 * No dependencies
 * Very fast
 
+Note: This package does not support extracting / unpacking rar archives.
+
 ## Requirements
 
 * PHP 7.3+ or 8.0+
