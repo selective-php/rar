@@ -12,6 +12,7 @@ use Selective\Rar\Struct\RarExtTimeStruct;
 use Selective\Rar\Struct\RarFileHeadStruct;
 use Selective\Rar\Struct\RarMainHeadStruct;
 use Selective\Rar\Struct\RarVolumeHeaderStruct;
+use SplFileObject;
 
 /**
  * RAR file reader.
@@ -53,11 +54,11 @@ final class RarFileReader
     /**
      * Open RAR file.
      *
-     * @param \SplFileObject $file The rar file
+     * @param SplFileObject $file The rar file
      *
      * @return RarArchive The RAR archive
      */
-    public function openFile(\SplFileObject $file): RarArchive
+    public function openFile(SplFileObject $file): RarArchive
     {
         $file->rewind();
 
@@ -100,11 +101,11 @@ final class RarFileReader
     /**
      * Create struct instance.
      *
-     * @param \SplFileObject $file The rar file
+     * @param SplFileObject $file The rar file
      *
      * @return RarArchiveStruct The result
      */
-    private function createRarArchiveStruct(\SplFileObject $file): RarArchiveStruct
+    private function createRarArchiveStruct(SplFileObject $file): RarArchiveStruct
     {
         $rarFile = new RarArchiveStruct();
 
@@ -124,12 +125,12 @@ final class RarFileReader
     /**
      * Read file header.
      *
-     * @param \SplFileObject $file The file
+     * @param SplFileObject $file The file
      * @param RarVolumeHeaderStruct $rarVolumeHeader The header
      *
      * @return RarFileHeadStruct The result
      */
-    private function readFileHead(\SplFileObject $file, RarVolumeHeaderStruct $rarVolumeHeader): RarFileHeadStruct
+    private function readFileHead(SplFileObject $file, RarVolumeHeaderStruct $rarVolumeHeader): RarFileHeadStruct
     {
         $fileHead = new RarFileHeadStruct();
 
@@ -216,12 +217,12 @@ final class RarFileReader
      * https://github.com/vadmium/vadmium.github.com/blob/master/rar.md
      * https://github.com/larrykoubiak/minirar/blob/master/rar_time.c#L8
      *
-     * @param \SplFileObject $file The file
+     * @param SplFileObject $file The file
      * @param DateTimeImmutable $fileTime The base file time
      *
      * @return RarExtTimeStruct The result
      */
-    private function readExtTime(\SplFileObject $file, DateTimeImmutable $fileTime): RarExtTimeStruct
+    private function readExtTime(SplFileObject $file, DateTimeImmutable $fileTime): RarExtTimeStruct
     {
         $extTime = new RarExtTimeStruct();
 
@@ -267,14 +268,14 @@ final class RarFileReader
      * Parse EXT_TIME to date time.
      *
      * @param int $flag The flag
-     * @param \SplFileObject $file The file
+     * @param SplFileObject $file The file
      * @param DateTimeImmutable|null $baseTime The base time
      *
      * @return DateTimeImmutable|null The date time or null
      */
     private function parseExtTime(
         int $flag,
-        \SplFileObject $file,
+        SplFileObject $file,
         DateTimeImmutable $baseTime = null
     ): ?DateTimeImmutable {
         // Must be valid
@@ -313,11 +314,11 @@ final class RarFileReader
     /**
      * Read main head.
      *
-     * @param \SplFileObject $file The file
+     * @param SplFileObject $file The file
      *
      * @return RarMainHeadStruct The result
      */
-    private function readRarMainHead(\SplFileObject $file): RarMainHeadStruct
+    private function readRarMainHead(SplFileObject $file): RarMainHeadStruct
     {
         $mainHead = new RarMainHeadStruct();
         $mainHead->highPosAv = $this->readInt($file);
@@ -330,12 +331,12 @@ final class RarFileReader
     /**
      * Read volume header.
      *
-     * @param \SplFileObject $file The file
+     * @param SplFileObject $file The file
      * @param RarArchiveStruct $rarFile
      *
      * @return RarVolumeHeaderStruct The result
      */
-    private function readRarVolumeHeader(\SplFileObject $file, RarArchiveStruct $rarFile): RarVolumeHeaderStruct
+    private function readRarVolumeHeader(SplFileObject $file, RarArchiveStruct $rarFile): RarVolumeHeaderStruct
     {
         $volumeHeader = new RarVolumeHeaderStruct();
 
@@ -376,11 +377,11 @@ final class RarFileReader
     /**
      * Reade 4 bytes and convert to big int.
      *
-     * @param \SplFileObject $file The file
+     * @param SplFileObject $file The file
      *
      * @return int The value
      */
-    private function readBigInt(\SplFileObject $file): int
+    private function readBigInt(SplFileObject $file): int
     {
         return $this->getBigInt((string)$file->fread(4));
     }
@@ -388,11 +389,11 @@ final class RarFileReader
     /**
      * Reade 2 bytes and convert to int.
      *
-     * @param \SplFileObject $file The file
+     * @param SplFileObject $file The file
      *
      * @return int The value
      */
-    private function readInt(\SplFileObject $file): int
+    private function readInt(SplFileObject $file): int
     {
         return $this->getInt((string)$file->fread(2));
     }
@@ -400,16 +401,16 @@ final class RarFileReader
     /**
      * Reade 1 byte and convert to int.
      *
-     * @param \SplFileObject $file The file
+     * @param SplFileObject $file The file
      *
      * @return int The value
      */
-    private function readByte(\SplFileObject $file): int
+    private function readByte(SplFileObject $file): int
     {
         return ord((string)$file->fread(1));
     }
 
-    private function readVint(\SplFileObject $file): int
+    private function readVint(SplFileObject $file): int
     {
         $result = 0;
         do {
@@ -472,7 +473,7 @@ final class RarFileReader
         return (array)$result;
     }
 
-    private function readSignature(\SplFileObject $file, RarArchiveStruct $rarFile): void
+    private function readSignature(SplFileObject $file, RarArchiveStruct $rarFile): void
     {
         $signature = bin2hex((string)$file->fread(7));
 
@@ -498,7 +499,7 @@ final class RarFileReader
         throw new \UnexpectedValueException('This is not a valid RAR file');
     }
 
-    private function readRar4File(\SplFileObject $file, RarArchiveStruct $rarFile): void
+    private function readRar4File(SplFileObject $file, RarArchiveStruct $rarFile): void
     {
         while (!$file->eof()) {
             $volumeHeader = $this->readRarVolumeHeader($file, $rarFile);
@@ -523,7 +524,7 @@ final class RarFileReader
         }
     }
 
-    private function readRar5File(\SplFileObject $file, RarArchiveStruct $rarFile): void
+    private function readRar5File(SplFileObject $file, RarArchiveStruct $rarFile): void
     {
         $this->readRar5MainArchiveHeader($file);
 
@@ -558,7 +559,7 @@ final class RarFileReader
         }
     }
 
-    private function readRar5MainArchiveHeader(\SplFileObject $file): RarVolumeHeaderStruct
+    private function readRar5MainArchiveHeader(SplFileObject $file): RarVolumeHeaderStruct
     {
         // https://www.rarlab.com/technote.htm#mainhead
 
@@ -590,7 +591,7 @@ final class RarFileReader
         return $volumeHeader;
     }
 
-    private function readRar5FileHeader(\SplFileObject $file): RarFileHeadStruct
+    private function readRar5FileHeader(SplFileObject $file): RarFileHeadStruct
     {
         $fileHeader = new RarFileHeadStruct();
 
@@ -657,7 +658,7 @@ final class RarFileReader
         $fileHeader->nameSize = $this->readVint($file);
 
         // Variable length field containing Name length bytes in UTF-8 format without trailing zero.
-        $fileHeader->fileName = $file->fread($fileHeader->nameSize);
+        $fileHeader->fileName = (string)$file->fread($fileHeader->nameSize);
 
         // Optional area containing additional header fields, present only if 0x0001 header flag is set.
         if ($this->bit->isFlagSet($headerFlags, 0x0001) && $extraAreaSize) {
@@ -680,7 +681,7 @@ final class RarFileReader
                         $fileHeader->fileTime = (new DateTimeImmutable())->setTimestamp($fileTimeUnix);
                     } else {
                         // Convert bytes to a 64-bit integer
-                        $fileTime = unpack('P', $file->fread(8))[1];
+                        $fileTime = ((array)unpack('P', (string)$file->fread(8)))[1];
 
                         // Adjust Windows FILETIME to Unix timestamp format
                         $fileTimeUnix = ($fileTime - 116444736000000000) / 10000000;
