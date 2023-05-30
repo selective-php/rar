@@ -44,6 +44,8 @@ class RarFileReaderTest extends TestCase
 
     public function testOpenFileRar5ChinaWindows(): void
     {
+        date_default_timezone_set('UTC');
+
         $filename = __DIR__ . '/files/test-rar5-china-win.rar';
         $this->assertFileExists($filename);
 
@@ -53,12 +55,12 @@ class RarFileReaderTest extends TestCase
         $entries = $rarArchive->getEntries();
         $this->assertCount(2, $entries);
         $this->assertSame(9, $entries[0]->getUnpackedSize());
-        $this->assertSame('2023-05-30 09:56:30', $entries[0]->getFileTime()->format('Y-m-d H:i:s'));
+        $this->assertSame('2023-05-30 07:56:30', $entries[0]->getFileTime()->format('Y-m-d H:i:s'));
         $this->assertSame('test2/很好。.txt', $entries[0]->getName());
         $this->assertSame('10F28531', $entries[0]->getCrc());
 
         $this->assertSame(12, $entries[1]->getUnpackedSize());
-        $this->assertSame('2023-05-30 09:55:36', $entries[1]->getFileTime()->format('Y-m-d H:i:s'));
+        $this->assertSame('2023-05-30 07:55:36', $entries[1]->getFileTime()->format('Y-m-d H:i:s'));
         $this->assertSame('test2/祝你一天过得愉快。.txt', $entries[1]->getName());
         $this->assertSame('E3C94841', $entries[1]->getCrc());
     }
