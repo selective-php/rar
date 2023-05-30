@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add support for RAR 5.0 archive format (https://www.rarlab.com/technote.htm#filehead)
+- Add support for RAR 5.0 archive format (https://www.rarlab.com/technote.htm)
 - Add changelog
 
 ### Changed

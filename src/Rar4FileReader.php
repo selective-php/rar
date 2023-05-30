@@ -19,16 +19,14 @@ use SplFileObject;
  *
  * Specifications:
  *
+ * https://en.wikipedia.org/wiki/RAR_(file_format)
  * https://www.forensicswiki.org/wiki/RAR
  * https://www.rarlab.com/technote.htm#dtypes
  * https://codedread.github.io/bitjs/docs/unrar.html
  * http://acritum.com/winrar/rar-format
  * https://www.loc.gov/preservation/digital/formats/fdd/fdd000450.shtml
  * https://www.opennet.ru/docs/formats/rar2.txt
- * http://www.iesleonardo.com/ele/gs/Utilidades/WinRAR/TechNote.txt
- * http://www.forensicswiki.org/w/images/5/5b/RARFileStructure.txt
  * https://formats.kaitai.io/rar/index.html
- * https://rarfile.readthedocs.io/en/latest/news.html
  */
 final class Rar4FileReader
 {

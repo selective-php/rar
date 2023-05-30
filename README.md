@@ -12,6 +12,8 @@ RAR file reader for PHP.
 ## Features
 
 * Read RAR file information
+* RAR 5 archive format
+* RAR 4 archive format
 * No dependencies
 * Very fast
 

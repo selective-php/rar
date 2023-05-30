@@ -13,7 +13,7 @@ use UnexpectedValueException;
 /**
  * RAR 5 file reader.
  *
- * Specifications: https://www.rarlab.com/technote.htm#filehead
+ * Specifications: https://www.rarlab.com/technote.htm
  */
 final class Rar5FileReader
 {
