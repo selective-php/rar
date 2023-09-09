@@ -12,23 +12,24 @@
 # This could have a big impact on big deployments and/or testing. 
 # ------------------------------------------------------------------------------
 
+/tests              export-ignore
 /build              export-ignore
 /docs               export-ignore
-/tests              export-ignore
-/.cs.php            export-ignore
-/.coveralls.*       export-ignore
-/.editorconfig      export-ignore
+/build.xml          export-ignore
+/phpunit.xml        export-ignore
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
 /.scrutinizer.*     export-ignore
-/.travis.*          export-ignore
-/build.xml          export-ignore
-/phpcs.xml          export-ignore
-/phpstan.neon       export-ignore
-/phpunit.xml        export-ignore
+/.editorconfig      export-ignore
 
 # Define binary file attributes.
 # - Do not treat them as text.
 # - Include binary diff in patches instead of "binary files differ."
-*.rar binary
+*.pdf binary
+*.mo binary
+*.gif binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.png binary
 *.zip binary

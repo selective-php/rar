@@ -21,7 +21,7 @@ Note: This package does not support extracting / unpacking rar archives.
 
 ## Requirements
 
-* PHP 7.3+ or 8.0+
+* PHP 8.1+
 
 > The [PECL RAR package](https://www.php.net/manual/en/book.rar.php) is **NOT** required
 

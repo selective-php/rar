@@ -4,6 +4,7 @@ namespace Selective\Rar\Test;
 
 use PHPUnit\Framework\TestCase;
 use Selective\Rar\RarFileReader;
+use SplFileObject;
 
 /**
  * Test.
@@ -16,7 +17,7 @@ class RarFileReaderTest extends TestCase
         $this->assertFileExists($filename);
 
         $fileReader = new RarFileReader();
-        $rarArchive = $fileReader->openFile(new \SplFileObject($filename));
+        $rarArchive = $fileReader->openFile(new SplFileObject($filename));
 
         $entries = $rarArchive->getEntries();
         $this->assertCount(2, $entries);
@@ -33,7 +34,7 @@ class RarFileReaderTest extends TestCase
         $this->assertFileExists($filename);
 
         $fileReader = new RarFileReader();
-        $rarArchive = $fileReader->openFile(new \SplFileObject($filename));
+        $rarArchive = $fileReader->openFile(new SplFileObject($filename));
 
         $entries = $rarArchive->getEntries();
         $this->assertCount(1, $entries);
@@ -50,7 +51,7 @@ class RarFileReaderTest extends TestCase
         $this->assertFileExists($filename);
 
         $fileReader = new RarFileReader();
-        $rarArchive = $fileReader->openFile(new \SplFileObject($filename));
+        $rarArchive = $fileReader->openFile(new SplFileObject($filename));
 
         $entries = $rarArchive->getEntries();
         $this->assertCount(2, $entries);
@@ -79,7 +80,7 @@ class RarFileReaderTest extends TestCase
         $this->assertFileExists($filename);
 
         $fileReader = new RarFileReader();
-        $rarArchive = $fileReader->openFile(new \SplFileObject($filename));
+        $rarArchive = $fileReader->openFile(new SplFileObject($filename));
 
         $ration = 0;
 
