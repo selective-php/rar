@@ -5,8 +5,6 @@ RAR file reader for PHP.
 [![Latest Version on Packagist](https://img.shields.io/github/release/selective-php/rar.svg)](https://packagist.org/packages/selective/rar)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 [![Build Status](https://github.com/selective-php/rar/workflows/build/badge.svg)](https://github.com/selective-php/rar/actions)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/selective-php/rar.svg)](https://scrutinizer-ci.com/g/selective-php/rar/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/quality/g/selective-php/rar.svg)](https://scrutinizer-ci.com/g/selective-php/rar/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/selective/rar.svg)](https://packagist.org/packages/selective/rar/stats)
 
 ## Features
@@ -21,7 +19,7 @@ Note: This package does not support extracting / unpacking rar archives.
 
 ## Requirements
 
-* PHP 8.1+
+* PHP 8.1 - 8.4
 
 > The [PECL RAR package](https://www.php.net/manual/en/book.rar.php) is **NOT** required
 
