@@ -234,7 +234,7 @@ final class Rar4FileReader
     private function parseExtTime(
         int $flag,
         SplFileObject $file,
-        DateTimeImmutable $baseTime = null
+        ?DateTimeImmutable $baseTime = null
     ): ?DateTimeImmutable {
         // Must be valid
         if (!$this->bit->isFlagSet($flag, 0x0008)) {
