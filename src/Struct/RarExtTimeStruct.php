@@ -12,40 +12,40 @@ final class RarExtTimeStruct
     /**
      * @var int
      */
-    public $size;
+    public int $size = 0;
 
     /**
      * @var int
      */
-    public $type;
+    public int $type = 0;
 
     /**
      * @var int
      */
-    public $flags;
+    public int $flags = 0;
 
     /**
      * @var DateTimeImmutable|null
      */
-    public $mtime;
+    public ?DateTimeImmutable $mtime = null;
 
     /**
      * @var DateTimeImmutable|null
      */
-    public $ctime;
+    public ?DateTimeImmutable $ctime = null;
 
     /**
      * @var DateTimeImmutable|null
      */
-    public $atime;
+    public ?DateTimeImmutable $atime = null;
 
     /**
      * @var DateTimeImmutable|null
      */
-    public $arctime;
+    public ?DateTimeImmutable $arctime = null;
 
     /**
      * @var bool
      */
-    public $isUnixFormat;
+    public bool $isUnixFormat = false;
 }

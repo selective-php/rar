@@ -30,20 +30,11 @@ use SplFileObject;
  */
 final class Rar4FileReader
 {
-    /**
-     * @var BinaryFileReader
-     */
-    private $fileReader;
+    private BinaryFileReader $fileReader;
 
-    /**
-     * @var BitConverter
-     */
-    private $bit;
+    private BitConverter $bit;
 
-    /**
-     * @var DateTimeConverter
-     */
-    private $dateTime;
+    private DateTimeConverter $dateTime;
 
     /**
      * The constructor.

@@ -12,35 +12,36 @@ final class RarFileHeadStruct
     /**
      * @var int 4 bytes
      */
-    public $packSize;
+    public int $packSize = 0;
 
     /**
      * @var int 4 bytes
      */
-    public $lowUnpackSize;
+    public int $lowUnpackSize = 0;
 
     /**
      * @var int 1 byte
      */
-    public $hostOS;
+    public int $hostOS = 0;
 
     /**
      * @var string 4 bytes
      */
-    public $fileCRC;
+    public string $fileCRC = '';
 
     /**
      * @var DateTimeImmutable 4 bytes
      */
-    public $fileTime;
-
-    /**
-     * @var int 1 bytes
-     */
-    public $unpVer;
+    public DateTimeImmutable $fileTime;
 
     /**
      * @var int 1 byte
+     */
+    public int $unpVer = 0;
+
+    /**
+     * @var int 1 byte
+     *
      * 0 = Store (no compression)
      * 1 = Fastest
      * 2 = Fast
@@ -48,50 +49,50 @@ final class RarFileHeadStruct
      * 4 = Good
      * 5 = Best
      */
-    public $method;
+    public int $method = 0;
 
     /**
      * @var int 2 bytes
      */
-    public $nameSize;
+    public int $nameSize = 0;
 
     /**
      * @var int 4 bytes
      */
-    public $fileAttr;
+    public int $fileAttr = 0;
 
     /**
      * @var int 4 bytes (only present if LHD_LARGE is set)
      */
-    public $highPackSize = 0;
+    public int $highPackSize = 0;
 
     /**
      * @var int 4 bytes (only present if LHD_LARGE is set)
      */
-    public $highUnpackSize = 0;
+    public int $highUnpackSize = 0;
 
     /**
-     * @var string (NameSize) bytes
+     * @var string Filename
      */
-    public $fileName = '';
+    public string $fileName = '';
 
     /**
      * @var string 8 bytes (only present if LHD_SALT is set)
      */
-    public $salt;
+    public string $salt = '';
 
     /**
-     * @var RarExtTimeStruct Structure, See Description (only present if LHD_EXTTIME is set)
+     * @var RarExtTimeStruct|null Structure, See Description (only present if LHD_EXTTIME is set)
      */
-    public $extTime;
+    public ?RarExtTimeStruct $extTime = null;
 
     /**
      * @var int
      */
-    public $unpackSize;
+    public int $unpackSize = 0;
 
     /**
      * @var bool
      */
-    public $isDirectory = false;
+    public bool $isDirectory = false;
 }

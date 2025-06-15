@@ -10,15 +10,15 @@ final class RarMainHeadStruct
     /**
      * @var int 2 bytes
      */
-    public $highPosAv;
+    public int $highPosAv = 0;
 
     /**
      * @var int 4 bytes
      */
-    public $posAv;
+    public int $posAv = 0;
 
     /**
      * @var int 1 byte Value 0x0200 (512). Indicates whether encryption is present in the archive volume.
      */
-    public $encryptVer;
+    public int $encryptVer = 0;
 }

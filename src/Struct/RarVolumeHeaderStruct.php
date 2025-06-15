@@ -10,45 +10,45 @@ final class RarVolumeHeaderStruct
     /**
      * @var string 2 bytes
      */
-    public $crc = '';
+    public string $crc = '';
 
     /**
-     * @var int 1 bytes
+     * @var int 1 byte
      */
-    public $type = 0;
-
-    /**
-     * @var int 2 byte
-     */
-    public $flags = 0;
+    public int $type = 0;
 
     /**
      * @var int 2 byte
      */
-    public $size = 0;
+    public int $flags = 0;
+
+    /**
+     * @var int 2 byte
+     */
+    public int $size = 0;
 
     /**
      * @var int 4 byte
      */
-    public $addSize = 0;
+    public int $addSize = 0;
 
     /**
      * @var int
      */
-    public $blockSize = 0;
+    public int $blockSize = 0;
 
     /**
      * @var bool
      */
-    public $hasAdd;
+    public bool $hasAdd = false;
 
     /**
      * @var int
      */
-    public $headerSize;
+    public int $headerSize = 0;
 
     /**
      * @var int
      */
-    public $bodySize;
+    public int $bodySize = 0;
 }
