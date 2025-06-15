@@ -40,7 +40,13 @@ final class RarFileHeadStruct
     public $unpVer;
 
     /**
-     * @var int 1 bytes
+     * @var int 1 byte
+     * 0 = Store (no compression)
+     * 1 = Fastest
+     * 2 = Fast
+     * 3 = Normal (corresponds to m3)
+     * 4 = Good
+     * 5 = Best
      */
     public $method;
 

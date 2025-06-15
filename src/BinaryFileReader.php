@@ -45,18 +45,40 @@ class BinaryFileReader
 
     public function readVint(SplFileObject $file): int
     {
-        $result = 0;
-        do {
-            $number = $this->readByte($file);
-            // Applying bitmask to extract lower 7 bits
-            $lower7Bits = $number & 0x7F;
-            // Finding the highest bit
-            $highestBit8 = ($number >> 7) & 1;
+        $shift = 0;
+        $low = 0;
+        $high = 0;
+        $count = 1;
 
-            $result += $lower7Bits;
-        } while ($highestBit8 != 0);
+        while (!$file->eof() && $count <= 10) {
+            $byte = ord((string)$file->fread(1));
 
-        return $result;
+            if ($count < 5) {
+                $low += ($byte & 0x7F) << $shift;
+            } elseif ($count === 5) {
+                $low += ($byte & 0x0F) << $shift; // 4 bits
+                $high += ($byte >> 4) & 0x07; // 3 bits
+                $shift = -4;
+            } else {
+                $high += ($byte & 0x7F) << $shift;
+            }
+
+            if (($byte & 0x80) === 0) {
+                if ($low < 0) {
+                    $low += 0x100000000;
+                }
+                if ($high < 0) {
+                    $high += 0x100000000;
+                }
+
+                return ($high !== 0) ? $this->int64($low, $high) : $low;
+            }
+
+            $shift += 7;
+            $count++;
+        }
+
+        return 0;
     }
 
     /**
@@ -68,6 +90,10 @@ class BinaryFileReader
      */
     public function getInt(string $data): int
     {
+        if ($data === '') {
+            return 0;
+        }
+
         // 2 bytes
         return (int)$this->unpack('v', $data)[1];
     }
@@ -97,6 +123,10 @@ class BinaryFileReader
      */
     private function unpack(string $format, string $data): array
     {
+        if ($data === '') {
+            return [];
+        }
+
         $result = unpack($format, $data);
 
         if ($result === false) {
@@ -104,5 +134,10 @@ class BinaryFileReader
         }
 
         return (array)$result;
+    }
+
+    private function int64(int $low, int $high): int
+    {
+        return $low + ($high * 0x100000000);
     }
 }

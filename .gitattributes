@@ -34,3 +34,7 @@
 *.png binary
 *.zip binary
 *.rar binary
+*.rar binary
+*.exe binary
+*.cbr binary
+*.bin binary
