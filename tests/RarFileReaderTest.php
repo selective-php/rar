@@ -2,6 +2,7 @@
 
 namespace Selective\Rar\Test;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Selective\Rar\RarFileReader;
 use SplFileObject;
@@ -71,12 +72,11 @@ class RarFileReaderTest extends TestCase
     /**
      * Test.
      *
-     * @dataProvider providerTestOpenFile2
-     *
      * @param string $filename The filename
      *
      * @return void
      */
+    #[DataProvider('providerTestOpenFile2')]
     public function disabledTestOpenFile2(string $filename): void
     {
         $this->assertFileExists($filename);
@@ -183,9 +183,9 @@ class RarFileReaderTest extends TestCase
     }
 
     /**
-     * @dataProvider providerTestOpenFileTestfile
      * @param string $filename
      */
+    #[DataProvider('providerTestOpenFileTestfile')]
     public function testOpenFileTestfile(string $filename): void
     {
         $this->assertFileExists($filename);
