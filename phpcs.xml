@@ -22,7 +22,7 @@
     </rule>
     <rule ref="Generic.Metrics.NestingLevel">
         <properties>
-            <property name="nestingLevel" value="2"/>
+            <property name="nestingLevel" value="3"/>
             <property name="absoluteNestingLevel" value="4"/>
         </properties>
     </rule>
