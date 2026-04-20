@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -36,8 +36,8 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Run PHP CodeSniffer
-        run: composer sniffer:check
+      - name: Run PHP Coding Standards Fixer
+        run: composer cs:check
 
       - name: Run PHPStan
         run: composer stan
