@@ -40,7 +40,9 @@ class BinaryFileReader
      */
     public function readByte(SplFileObject $file): int
     {
-        return ord((string)$file->fread(1));
+        $data = (string)$file->fread(1);
+
+        return $data === '' ? 0 : ord($data);
     }
 
     public function readVint(SplFileObject $file): int
